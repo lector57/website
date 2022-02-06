@@ -1,6 +1,6 @@
 job ('My Job'){
   steps {
-    clenWs()
+    cleanWs()
   }
   scm {
     git('https://github.com/lector57/website.git')
