@@ -17,8 +17,8 @@ jobs:
       SERVER_IP: ${{ vars.SERVER_IP_PROD }}
       REMOTE_USER: ${{ vars.ACCESS_USERNAME }}
       SSH_CONNECTION: ${{ vars.ACCESS_USERNAME }}@${{ vars.SERVER_IP_PROD }}
-      REMOTE_PATH: /home/prog/sweet-pay-app/backend
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_PROD }}
+      REMOTE_PATH: /tmp
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
     steps:
       - name: Checkout repository
