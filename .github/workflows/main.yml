@@ -46,4 +46,4 @@ jobs:
         run: |
           ssh ${{ env.SSH_CONNECTION }} '
              docker system prine -f;
-             docker build -t website:latest .   '
+             docker build -t website:latest -f ${{ env.REMOTE_PATH }}/Dockerfile .   '
