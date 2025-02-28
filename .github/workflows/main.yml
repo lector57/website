@@ -17,7 +17,7 @@ jobs:
       SERVER_IP: ${{ vars.SERVER_IP_PROD }}
       REMOTE_USER: ${{ vars.ACCESS_USERNAME }}
       SSH_CONNECTION: ${{ vars.ACCESS_USERNAME }}@${{ vars.SERVER_IP_PROD }}
-      REMOTE_PATH: /tmp
+      REMOTE_PATH: /tmp/app
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
     steps:
