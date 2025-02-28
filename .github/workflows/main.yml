@@ -1,5 +1,48 @@
+name: Deploy Application on Production
+
 on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch name'
+        required: true
+        default: 'main'
   push:
     branches:
-    - main
-    - release/*
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SERVER_IP: ${{ vars.SERVER_IP_PROD }}
+      REMOTE_USER: ${{ vars.ACCESS_USERNAME }}
+      SSH_CONNECTION: ${{ vars.ACCESS_USERNAME }}@${{ vars.SERVER_IP_PROD }}
+      REMOTE_PATH: /home/prog/sweet-pay-app/backend
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_PROD }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Set up SSH agent and add private key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ env.SSH_PRIVATE_KEY }}
+
+      - name: Copy SSH known_hosts
+        run: |
+            mkdir -p ~/.ssh
+            ssh-keyscan -H ${{ env.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Sync application files to server
+        run: |
+            rsync -avz --exclude='.git/' \
+            -e "ssh -o StrictHostKeyChecking=no" \
+            ./ ${{ env.SSH_CONNECTION }}:${{ env.REMOTE_PATH }}
+
+      - name: Deploy to Server
+        run: |
+          ssh ${{ env.SSH_CONNECTION }} '
+             HELLO          '
