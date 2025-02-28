@@ -45,4 +45,5 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh ${{ env.SSH_CONNECTION }} '
-             HELLO          '
+             docker system prine -f;
+             docker build -t website:latest .   '
